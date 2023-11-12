@@ -5,6 +5,7 @@ import com.example.demo.common.Const;
 import com.example.demo.util.Result;
 import com.google.code.kaptcha.Producer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sun.misc.BASE64Encoder;
 
@@ -25,6 +26,7 @@ public class KaptchaController extends BaseController {
      * @return
      * @throws IOException
      */
+    @GetMapping("/captcha")
     public Result captcha() throws IOException {
         String key= UUID.randomUUID().toString();
         String code=producer.createText();
@@ -37,7 +39,7 @@ public class KaptchaController extends BaseController {
         String str="data:image/jpeg;base64,";
         String base64Image=str+encoder.encode(outputStream.toByteArray());
 
-        redisUtil.hashMapSet(Const.CAPTCHA_KEY,key, code, Const.CAPTCHA_EXPIRE_TIME);
+        redisUtil.hashSet(Const.CAPTCHA_KEY,key, code, Const.CAPTCHA_EXPIRE_TIME);
 
         return Result.ok(
                 MapUtil.builder()

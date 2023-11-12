@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * <p>
  * 用户表
@@ -16,8 +18,6 @@ import lombok.experimental.Accessors;
 @Data
 @TableName("tb_user")
 public class User extends Base {
-
-    private static final long serialVersionUID = 1L;
 
     /**
      * 登录账户名（用户名）

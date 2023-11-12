@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 @TableName("tb_menu")
 public class Menu extends Base {
 
-    private static final long serialVersionUID = 1L;
+
 
     /**
      * 菜单标题

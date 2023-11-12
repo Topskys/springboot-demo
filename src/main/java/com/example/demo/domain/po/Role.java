@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 @TableName("tb_role")
 public class Role extends Base {
 
-    private static final long serialVersionUID = 1L;
+
 
     /**
      * 名称

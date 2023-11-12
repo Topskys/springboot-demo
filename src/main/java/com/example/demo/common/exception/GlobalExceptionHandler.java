@@ -1,4 +1,4 @@
-package com.example.demo.common;
+package com.example.demo.common.exception;
 
 import com.example.demo.util.Result;
 import lombok.extern.slf4j.Slf4j;

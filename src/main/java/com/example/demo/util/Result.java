@@ -2,12 +2,14 @@ package com.example.demo.util;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 响应工具类
  * @param <T>
  */
 @Data
-public class Result<T> {
+public class Result<T> implements Serializable {
 
     /**
      * 是否成功

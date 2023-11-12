@@ -153,6 +153,47 @@ public class RedisUtil {
     }
 
     /**
+     * 向一张hash表中放入数据,如果不存在将创建
+     *
+     * @param key   键
+     * @param item  项
+     * @param value 值
+     * @return true 成功 false失败
+     */
+    public boolean hashSet(String key, String item, Object value) {
+        try {
+            redisTemplate.opsForHash().put(key, item, value);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 向一张hash表中放入数据,如果不存在将创建
+     *
+     * @param key   键
+     * @param item  项
+     * @param value 值
+     * @param time  时间(秒)  注意:如果已存在的hash表有时间,这里将会替换原有的时间
+     * @return true 成功 false失败
+     */
+    public boolean hashSet(String key, String item, Object value, long time) {
+        try {
+            redisTemplate.opsForHash().put(key, item, value);
+            if (time > 0) {
+                setExpire(key, time);
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    /**
      * 获取hashKey对应的所有键值
      * @param key 键
      * @return 对应的多个键值
