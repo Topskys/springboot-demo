@@ -3,6 +3,8 @@ package com.example.demo.service;
 import com.example.demo.domain.po.Menu;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 菜单资源表 服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IMenuService extends IService<Menu> {
 
+    List<Long> getNavMenuIds(Long userId);
 }

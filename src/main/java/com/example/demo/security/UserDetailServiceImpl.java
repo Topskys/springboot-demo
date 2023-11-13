@@ -5,6 +5,7 @@ import com.example.demo.domain.po.User;
 import com.example.demo.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,7 +26,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if (user==null){
             throw new UsernameNotFoundException(Const.USER_NOT_FOUND);
         }
-
         return new AccountUser(user.getId(), user.getUsername(), user.getPassword(),getUserAuthority(user.getId()));
     }
 
@@ -35,6 +35,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
      * @return
      */
     public List<GrantedAuthority> getUserAuthority(Long userId) {
-        return null;
+        // 获取用户权限字符串（role1,role2,button1,）
+        String authorities=userService.getUserAuthority(userId);
+        // 格式化成权限字符数组
+        return AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
     }
 }

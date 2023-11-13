@@ -13,5 +13,17 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserService extends IService<User> {
 
+    /**
+     * 根据用户名获取用户信息
+     * @param username
+     * @return
+     */
     User getUserByUsername(String username);
+
+    /**
+     * 根据用户编号获取用户权限
+     * @param userId
+     * @return
+     */
+    String getUserAuthority(Long userId);
 }
