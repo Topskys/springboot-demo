@@ -30,6 +30,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailServiceImpl userDetailService;
 
+    @Autowired
+    JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    @Autowired
+    JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
+    @Autowired
+    JwtLogoutSuccessHandler logoutSuccessHandler;
+
     @Bean
     JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
         return new JwtAuthenticationFilter(authenticationManager());
@@ -57,9 +66,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(loginFailureHandler)
 
                 // 退出登录
-                //.and()
-                //.logout()
-                //.logoutSuccessHandler()
+                .and()
+                .logout()
+                .logoutSuccessHandler(logoutSuccessHandler)
 
                 // 禁用session
                 .and()
@@ -73,10 +82,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
 
                 // 异常处理器
-                //.and()
-                //.exceptionHandling()
-                //.authenticationEntryPoint()
-                //.accessDeniedHandler()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
 
                 // 自定义过滤器和验证码效验过滤器
                 .and()

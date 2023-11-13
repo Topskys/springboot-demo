@@ -3,6 +3,9 @@ package com.example.demo.common.exception;
 import com.example.demo.util.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -32,5 +35,19 @@ public class GlobalExceptionHandler {
     Result handler(Exception e){
         log.error("系统异常", e);
         return Result.fail().message(e.getMessage());
+    }
+
+    /**
+     * 实体效验异常捕获
+     * @param e
+     * @return
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    Result handler(MethodArgumentNotValidException e){
+        BindingResult result=e.getBindingResult();
+        ObjectError objectError=result.getAllErrors().stream().findFirst().get();
+        log.error("实体效验异常", e);
+        return Result.fail().message(objectError.getDefaultMessage());
     }
 }

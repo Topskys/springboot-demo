@@ -5,6 +5,8 @@ import cn.hutool.json.JSONUtil;
 import com.example.demo.common.Const;
 import com.example.demo.util.Result;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
@@ -18,11 +20,10 @@ import java.io.IOException;
  * 自定义jwt认证失败
  */
 @Component
-public class JwtAuthenticationEntryPoint implements AccessDeniedHandler {
-
+public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         // jwt认证失败处理
         response.setContentType("application/json;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

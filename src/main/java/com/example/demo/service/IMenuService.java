@@ -16,4 +16,6 @@ import java.util.List;
 public interface IMenuService extends IService<Menu> {
 
     List<Long> getNavMenuIds(Long userId);
+
+    List getMenuRoutes();
 }

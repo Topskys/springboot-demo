@@ -72,11 +72,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         return authority;
     }
 
+    /**
+     * 删除redis权限缓存1
+     * @param username
+     */
     @Override
     public void clearUserAuthority(String username) {
         redisUtil.del("GrantedAuthority:"+username);
     }
 
+    /**
+     * 删除redis权限缓存2
+     * @param roleId
+     */
     @Override
     public void clearUserAuthorityByRoleId(Long roleId) {
        List<User> users=this.list(new QueryWrapper<User>().inSql("id","select user_id from tb_user_role where role_id = " + roleId));
@@ -85,6 +93,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
        });
     }
 
+    /**
+     * 删除redis权限缓存3
+     * @param menuId
+     */
     @Override
     public void clearUserAuthorityByMenuId(Long menuId) {
         List<User> users= userMapper.listByMenuId(menuId);

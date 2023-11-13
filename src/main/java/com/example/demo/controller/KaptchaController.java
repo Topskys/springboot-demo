@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -23,11 +24,12 @@ public class KaptchaController extends BaseController {
 
     /**
      * 获取生成的验证码图片
+     *
      * @return
      * @throws IOException
      */
     @GetMapping("/captcha")
-    public Result captcha() throws IOException {
+    public Result<Map<Object, Object>> captcha() throws IOException {
         String key= UUID.randomUUID().toString();
         String code=producer.createText();
 
@@ -41,6 +43,7 @@ public class KaptchaController extends BaseController {
 
         redisUtil.hashSet(Const.CAPTCHA_KEY,key, code, Const.CAPTCHA_EXPIRE_TIME);
 
+        // TODO 响应的base64图片不能显示
         return Result.ok(
                 MapUtil.builder()
                 .put("key",key)
