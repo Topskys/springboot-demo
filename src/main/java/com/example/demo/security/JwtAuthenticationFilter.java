@@ -10,6 +10,7 @@ import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -59,7 +60,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         String username=claim.getSubject();
         // TODO 获取用户权限信息
         User user=userService.getUserByUsername(username);
-        String authorities=userDetailService.getUserAuthority(user.getId());
+        List<GrantedAuthority> authorities=userDetailService.getUserAuthority(user.getId());
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username,null,authorities);
         // 将用户信息放置上下文中
         SecurityContextHolder.getContext().setAuthentication(token);

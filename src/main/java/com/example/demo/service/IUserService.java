@@ -26,4 +26,22 @@ public interface IUserService extends IService<User> {
      * @return
      */
     String getUserAuthority(Long userId);
+
+    /**
+     * 根据用户名删除用户缓存权限信息
+     * @param username
+     */
+    void clearUserAuthority(String username);
+
+    /**
+     * 根据角色编号删除用户缓存权限信息
+     * @param roleId
+     */
+    void clearUserAuthorityByRoleId(Long roleId);
+
+    /**
+     * 根据菜单编号删除用户缓存权限信息
+     * @param menuId
+     */
+    void clearUserAuthorityByMenuId(Long menuId);
 }
