@@ -45,6 +45,7 @@ public class KaptchaController extends BaseController {
                 MapUtil.builder()
                 .put("key",key)
                 .put("base64Image",base64Image)
+                .map()
         );
     }
 }
