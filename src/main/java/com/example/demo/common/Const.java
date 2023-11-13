@@ -15,4 +15,14 @@ public class Const {
      * 120秒（s）
      */
     public static final long CAPTCHA_EXPIRE_TIME=120;
+
+    /**
+     *  验证码错误提示信息
+     */
+    public static final String INVALID_CODE="验证码错误";
+
+    /**
+     * jwt token键值
+     */
+    public static final String JWT_KEY="Authorization";
 }

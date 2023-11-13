@@ -19,8 +19,12 @@ import java.io.IOException;
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        // 登录失败的处理逻辑
+    public void onAuthenticationSuccess(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Authentication authentication
+    ) throws IOException, ServletException {
+        // 登录成功的处理逻辑
         response.setContentType("application/json;charset=utf-8");
         ServletOutputStream outputStream = response.getOutputStream();
         // 生成Token，并放置请求头

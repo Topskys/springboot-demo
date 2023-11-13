@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.example.demo.security.CaptchaFilter;
 import com.example.demo.security.LoginFailureHandler;
 import com.example.demo.security.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -20,6 +22,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     LoginSuccessHandler loginSuccessHandler;
+
+    @Autowired
+    CaptchaFilter captchaFilter;
 
     private static final String[] WHITELIST = {
             "/login",
@@ -42,6 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(WHITELIST).permitAll()
                 .anyRequest().authenticated()
+                // 验证码效验过滤器
+                .and()
+                .addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class)
 
         ;
     }
