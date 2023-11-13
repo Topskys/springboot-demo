@@ -1,15 +1,16 @@
 package com.example.demo.config;
 
-import com.example.demo.security.CaptchaFilter;
-import com.example.demo.security.LoginFailureHandler;
-import com.example.demo.security.LoginSuccessHandler;
+import com.example.demo.security.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -26,7 +27,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     CaptchaFilter captchaFilter;
 
-    private static final String[] WHITELIST = {
+    @Autowired
+    UserDetailServiceImpl userDetailService;
+
+    @Bean
+    JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+        return new JwtAuthenticationFilter(authenticationManager());
+
+    }
+
+
+    @Bean
+    BCryptPasswordEncoder bCryptPasswordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+    private static final String[] WHITE_LIST = {
             "/login",
             "/logout",
             "/captcha",
@@ -35,22 +51,43 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().csrf().disable()
+                // 登录配置
                 .formLogin()
                 .successHandler(loginSuccessHandler)
                 .failureHandler(loginFailureHandler)
+
+                // 退出登录
+                //.and()
+                //.logout()
+                //.logoutSuccessHandler()
+
                 // 禁用session
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
                 // 配置拦截规则
                 .and()
                 .authorizeRequests()
-                .antMatchers(WHITELIST).permitAll()
+                .antMatchers(WHITE_LIST).permitAll()
                 .anyRequest().authenticated()
-                // 验证码效验过滤器
+
+                // 异常处理器
+                //.and()
+                //.exceptionHandling()
+                //.authenticationEntryPoint()
+                //.accessDeniedHandler()
+
+                // 自定义过滤器和验证码效验过滤器
                 .and()
+                .addFilter(jwtAuthenticationFilter())
                 .addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class)
 
         ;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailService);
     }
 }

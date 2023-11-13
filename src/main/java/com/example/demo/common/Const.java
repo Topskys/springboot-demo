@@ -25,4 +25,18 @@ public class Const {
      * jwt token键值
      */
     public static final String JWT_KEY="Authorization";
+    /**
+     * 登录成功提示信息
+     */
+    public static final String LOGIN_SUCCESS="登录成功";
+    /**
+     * 登录失败提示信息
+     */
+    public static final String LOGIN_FAIL="登录失败";
+
+    public static final String TOKEN_EXCEPTION="token异常";
+
+    public static final String TOKEN_EXPIRE="token已过期";
+    public static final String PlEASE_LOGIN="请先登录";
+    public static final String USER_NOT_FOUND="用户名或密码错误";
 }

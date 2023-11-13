@@ -40,3 +40,9 @@ mybatis-plus:
 #    com.example: debug
 #  pattern:
 #    dateformat: HH:mm:ss
+
+
+jwt:
+  header: Authorization
+  expire: 604800 # 7 天，单位为秒
+  secret: 12345678901234567890123456789012 # 32位秘钥
