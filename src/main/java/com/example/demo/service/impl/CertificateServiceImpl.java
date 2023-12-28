@@ -1,6 +1,5 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.domain.dto.CertificateDto;
 import com.example.demo.domain.po.Certificate;
 import com.example.demo.mapper.CertificateMapper;
 import com.example.demo.service.ICertificateService;
@@ -32,11 +31,10 @@ public class CertificateServiceImpl extends ServiceImpl<CertificateMapper, Certi
     }
 
     /**
-     *  信息关联，创建质检报告与产品批次关联
+     * 信息关联，创建质检报告与产品批次关联
      */
-    @Override
-    public Certificate createUnion(CertificateDto certificateDto) {
-        return certificateMapper.insert(certificateDto);
+    public int createUnion(Certificate certificate) {
+        return certificateMapper.insert(certificate);
     }
 
     @Override

@@ -23,7 +23,7 @@ public interface ICertificateService extends IService<Certificate> {
     /**
      *  信息关联，创建质检报告与产品批次关联
      */
-    Certificate createUnion(CertificateDto certificateDto);
+    int createUnion(Certificate certificate);
 
     /**
      * 根据质检报告编号删除信息关联
