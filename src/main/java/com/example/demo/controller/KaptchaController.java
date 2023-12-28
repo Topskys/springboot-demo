@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import cn.hutool.core.map.MapUtil;
-import com.example.demo.common.Const;
+import com.example.demo.util.Constant;
 import com.example.demo.util.Result;
 import com.google.code.kaptcha.Producer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +41,10 @@ public class KaptchaController extends BaseController {
         String str="data:image/jpeg;base64,";
         String base64Image=str+encoder.encode(outputStream.toByteArray());
 
-        redisUtil.hashSet(Const.CAPTCHA_KEY,key, code, Const.CAPTCHA_EXPIRE_TIME);
+        redisUtil.hashSet(Constant.CAPTCHA_KEY,key, code, Constant.CAPTCHA_EXPIRE_TIME);
 
         // TODO 响应的base64图片不能显示
-        return Result.ok(
+        return Result.success(
                 MapUtil.builder()
                 .put("key",key)
                 .put("base64Image",base64Image)

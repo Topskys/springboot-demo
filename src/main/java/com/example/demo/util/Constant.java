@@ -1,9 +1,9 @@
-package com.example.demo.common;
+package com.example.demo.util;
 
 /**
  * 常量类
  */
-public class Const {
+public class Constant {
 
     /**
      * redis存储键值

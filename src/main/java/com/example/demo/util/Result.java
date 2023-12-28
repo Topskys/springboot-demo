@@ -22,7 +22,7 @@ public class Result<T> implements Serializable {
     /**
      * 响应消息
      */
-    private String message;
+    private String msg;
     /**
      * 响应数据
      */
@@ -33,22 +33,22 @@ public class Result<T> implements Serializable {
     /**
      * 成功
      */
-    public static<T> Result<T> ok(){
+    public static<T> Result<T> success(){
         Result<T> result = new Result<T>();
         result.setSuccess(true);
         result.setCode(ResultCode.SUCCESS);
-        result.setMessage("操作成功");
+        result.setMsg("操作成功");
         return result;
     }
 
     /**
      * 成功，携带响应数据
      */
-    public static<T> Result<T> ok(T data){
+    public static<T> Result<T> success(T data){
         Result<T> result = new Result<T>();
         result.setSuccess(true);
         result.setCode(ResultCode.SUCCESS);
-        result.setMessage("操作成功");
+        result.setMsg("操作成功");
         result.setData(data);
         return result;
     }
@@ -60,9 +60,23 @@ public class Result<T> implements Serializable {
         Result<T> result = new Result<T>();
         result.setSuccess(false);
         result.setCode(ResultCode.FAILURE);
-        result.setMessage("操作失败");
+        result.setMsg("操作失败");
         return result;
     }
+
+
+    /**
+     * 错误（带错误参数）
+     */
+    public static<T> Result<T> fail(String msg){
+        Result<T> result = new Result<T>();
+        result.setSuccess(false);
+        result.setCode(ResultCode.FAILURE);
+        result.setMsg(msg);
+        return result;
+    }
+
+
 
     /**
      * 设置是否成功
@@ -83,8 +97,8 @@ public class Result<T> implements Serializable {
     /**
      * 设置消息
      */
-    public Result<T> message(String message){
-        this.setMessage(message);
+    public Result<T> msg(String msg){
+        this.setMsg(msg);
         return this;
     }
 
@@ -95,7 +109,7 @@ public class Result<T> implements Serializable {
         Result<T> result = new Result<T>();
         result.setSuccess(true);
         result.setCode(ResultCode.SUCCESS);
-        result.setMessage("操作成功");
+        result.setMsg("操作成功");
         return result;
     }
 }

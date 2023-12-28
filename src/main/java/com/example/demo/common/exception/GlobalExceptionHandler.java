@@ -3,6 +3,7 @@ package com.example.demo.common.exception;
 import com.example.demo.util.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,15 +19,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = IllegalArgumentException.class)
     Result handler(IllegalArgumentException e){
         log.error("参数异常", e);
-        return Result.fail().message(e.getMessage());
+        return Result.fail(e.getMessage());
     }
 
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = RuntimeException.class)
     Result handler(RuntimeException e){
-        log.error("运行时异常", e);
-        return Result.fail().message(e.getMessage());
+        log.error("运行时异常{}", e);
+        return Result.fail(e.getMessage());
     }
 
 
@@ -34,7 +35,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     Result handler(Exception e){
         log.error("系统异常", e);
-        return Result.fail().message(e.getMessage());
+        return Result.fail(e.getMessage());
     }
 
     /**
@@ -48,6 +49,15 @@ public class GlobalExceptionHandler {
         BindingResult result=e.getBindingResult();
         ObjectError objectError=result.getAllErrors().stream().findFirst().get();
         log.error("实体效验异常", e);
-        return Result.fail().message(objectError.getDefaultMessage());
+        return Result.fail(objectError.getDefaultMessage());
+    }
+
+    /**
+     * 参数效验异常捕获
+     */
+    @ExceptionHandler(BindException.class)
+    public Result bindExceptionHandler(BindException e) {
+        log.error("参数效验异常！{}", e);
+        return Result.fail(e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 }
